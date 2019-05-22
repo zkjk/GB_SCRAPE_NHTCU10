@@ -13,12 +13,12 @@ Console & Security
 This is the script that gives user functionality to the tool.
 
 ### Dependencies
-⋅⋅* Python 3+ 
-⋅⋅* Scrapy (**pip install Scrapy**)
+- Python 3+ 
+- Scrapy (**pip install Scrapy**)
 
 ### Usage
 `python3 Sceye.py <options>`
   
  In order to see all options use the -h command:
- `**python3 Sceye.py -h**`
+ `python3 Sceye.py -h`
 
