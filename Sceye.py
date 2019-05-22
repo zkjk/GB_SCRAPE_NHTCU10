@@ -44,7 +44,7 @@ def main(argv):
 
     #Finding all scrapers in the /scrapers folder and storing it in the array (alphabetical order)
     allfiles = []
-    for file in os.listdir(base_path / 'scrapers'):
+    for file in os.listdir(base_path / 'scraper'):
         allfiles.append(file)
     scrapers = sorted(allfiles, key=str.lower)
 
@@ -74,7 +74,7 @@ def main(argv):
                 print('Could not choose scraper #',x,'because it doesn\'t exist')
                 exit()
         input("\nPress Enter to start scraping...")
-        os.chdir(base_path / 'scrapers' / scrapers[0])
+        os.chdir(base_path / 'scraper' / scrapers[0])
         randomfile = "scrape" + str(random.randint(0,99999)) + ".json"
         subprocess.call(["scrapy","crawl","CYR_FINAL","-o",randomfile])
 
