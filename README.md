@@ -3,9 +3,10 @@ To do:
 Console & Security
 
 - Scrape website ✔
+- Be able to start/stop/pause/resume ✔
 - Export to JSON ✔
 - Connection to database with Python ✔
-- Use console to control 
+- Use console to control ✔
 - Add security layer
 
 ## Sceye.py
