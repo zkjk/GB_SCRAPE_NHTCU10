@@ -15,8 +15,8 @@ This is the script that gives user functionality to the tool.
 
 ### Dependencies
 - Python 3+ 
-- Scrapy (**pip install Scrapy**)
-- PyMySQL (**pip install PyMySQL**)
+- Scrapy (**python3 -m pip install scrapy**)
+- PyMySQL (**python3 -m pip install PyMySQL**)
 
 ### Usage
 `python3 Sceye.py <options>`
