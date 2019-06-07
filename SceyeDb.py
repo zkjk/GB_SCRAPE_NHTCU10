@@ -24,10 +24,14 @@ def main(arg1):
     con = pymysql.connect(host = '127.0.0.1',user = 'mellumsu',passwd = 'root',db = 'NHTCU')
     cursor = con.cursor()
 
+    cursor.execute("SET FOREIGN_KEY_CHECKS = 0")
+    cursor.execute("TRUNCATE `NHTCU` . `Company`")
+    cursor.execute("SET FOREIGN_KEY_CHECKS = 1")
     #A loop for all the json files
     for x in json_files:
         file = os.path.abspath(x)
-        json_data=open(file).read()
+        json_data=open(file).read().replace("null", "\"\"")
+#        json_string=json.dumps(json_data).replace("null", " ")
         json_obj = json.loads(json_data)
 
         # parse json data to SQL insert
@@ -45,7 +49,7 @@ def main(arg1):
 
 
             # cursor.execute("INSERT INTO CYR_testings (CYR_Address, CYR_Location, CYR_Company, CYR_PostalCode) VALUES (%s,%s,%s,%s)", (item["address"], item["location"], item["company_name"], item["postal_code"]))
-            cursor.execute("INSERT INTO Company (ID, UUIDCompany, Name, LandCode, ChamberOfCommerce, FoundedIn) VALUES (%s,%s,%s,%s,%s,%s)", ("0", item["uid"], item["company_name"], item["land_code"], item["company_registration_no"], item["date_time"]))
+            cursor.execute("INSERT INTO Company (ID, UUIDCompany, Name, LandCode, ChamberOfCommerce, FoundedIn) VALUES (%s,%s,%s,%s,%s,%s)", ("0", item["uid"], item["company_name"], item["land_code"], item["company_registration_no"], "2019-02-02"))
     con.commit()
     con.close()
 
