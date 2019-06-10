@@ -29,7 +29,7 @@ def main(argv):
 
     #Getting command line input
     try:
-        (opts, args) = getopt.getopt(argv, 'hls:r:', ['list','storedata', 'select=','reset='])
+        (opts, args) = getopt.getopt(argv, 'hls:r:c:', ['list','storedata', 'select=','reset=','char='])
     except getopt.GetoptError:
         print ('Usage:', projectname, '<start/pause/stop> [options]')
         print('\n(Use', projectname, '-h to view options)')
@@ -42,6 +42,7 @@ def main(argv):
             print ('-h \t\t Documentation')
             print ('-l, --list \t Show list of scraper(s)')
             print ('-s, --select \t Select scraper(s) (ID\'s seperated with commas)')
+            print ('-c, --char \t Character or letter to start the scraping from. By default \n \t\t it scrapes on alphabetical order')
             print ('-r, --reset \t Reset state of scraper(s). By default a scraper resumes \n \t\t scraping where it stopped. (ID\'s seperated with commas)')
             print ('--storedata \t Store all scraped data inside the JSON folder into the Database')
             print ('\nCurrently only one scraper can be chosen at the same time')
@@ -56,6 +57,8 @@ def main(argv):
         elif opt in ('-s', '--select'):
             selectedscrapers = (arg.split(","))
             selectedscrapers = [int(i) for i in selectedscrapers]
+        elif opt in ('-c', '--char'):
+            scrapechar = str(arg)
         elif opt in ('--storedata'):
             storedata = True
 
@@ -110,7 +113,7 @@ def main(argv):
         print("---------------------")
         print("NHTCU project OSINT")
         print("Team 10")
-        print("Framework v0.2")
+        print("Framework v1.1")
         print("---------------------")
 
         #Printing list of chosen scrapers
@@ -122,7 +125,9 @@ def main(argv):
             except:
                 print('Could not choose scraper #',x,'because it doesn\'t exist. Please try again')
                 exit()
-
+        if scrapechar:
+            print('\nScraping will start from the following character: '+ scrapechar)
+            print('Make sure to clear cache before scraping a new charactar (-r or --reset)')
         starting = input("\nPress Enter to start scraping (Stop with CTRL + C)")
         if starting == "":
             print("Scraping...")
@@ -130,8 +135,10 @@ def main(argv):
         randomfile = "scrape" + str(random.randint(0,99999)) + ".json"
         jsonFolder = '../../JSON/'+randomfile
         #The command that is ran to start the scraper
-        cmd = 'scrapy crawl '+ spiders[selectedscrapers[0]] + ' -o ' + jsonFolder + ' -s LOG_ENABLED=False -s JOBDIR=crawls/'+spiders[selectedscrapers[0]]+'-1'
-
+        if scrapechar:
+            cmd = 'scrapy crawl '+ spiders[selectedscrapers[0]] + ' -a ip='+ scrapechar + ' -o ' + jsonFolder + ' -s LOG_ENABLED=False -s JOBDIR=crawls/'+spiders[selectedscrapers[0]]+'-1'
+        else:
+            cmd = 'scrapy crawl '+ spiders[selectedscrapers[0]] + ' -o ' + jsonFolder + ' -s LOG_ENABLED=False -s JOBDIR=crawls/'+spiders[selectedscrapers[0]]+'-1'
         try:
             #Running the command in cmd inside the scraper folder
             os.chdir(base_path / 'Scraper' / scrapers[0])
