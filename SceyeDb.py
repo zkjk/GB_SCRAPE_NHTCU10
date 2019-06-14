@@ -20,8 +20,8 @@ def main(arg1):
     json_files = arg1
 
 
-    # connect to MySQL
-    con = pymysql.connect(host = '127.0.0.1',user = 'mellumsu',passwd = 'root',db = 'NHTCU')
+    # connect to MySQL with the right SSL filepath
+    con = pymysql.connect(host = '127.0.0.1',user = 'mellumsu',passwd = 'root',db = 'NHTCU', ssl={'ssl' : {'ca': '/etc/mysql/certs/ca.pem'}})
     cursor = con.cursor()
 
     cursor.execute("SET FOREIGN_KEY_CHECKS = 0")
