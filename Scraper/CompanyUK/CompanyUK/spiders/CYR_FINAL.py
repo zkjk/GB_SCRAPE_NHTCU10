@@ -61,5 +61,6 @@ class QuotesSpider(scrapy.Spider):
           'postal_code': i.css("[itemprop='postalCode']::text").extract_first(),
           'land_code': i.css("test").extract_first(default="GB"),
           'date_time': datetime.datetime.now(),
-          'uid': str(uuid.uuid4())
+          'uid': str(uuid.uuid4()),
+          'url': response.url
       }
