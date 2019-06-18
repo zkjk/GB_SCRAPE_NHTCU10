@@ -23,7 +23,9 @@ LOG_LEVEL = 'INFO'
 ROBOTSTXT_OBEY = True
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
-#CONCURRENT_REQUESTS = 32
+CONCURRENT_REQUESTS = 8
+DNS_TIMEOUT = 90
+DOWNLOAD_TIMEOUT = 360
 
 # Configure a delay for requests for the same website (default: 0)
 # See https://doc.scrapy.org/en/latest/topics/settings.html#download-delay

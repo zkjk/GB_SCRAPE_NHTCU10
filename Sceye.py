@@ -26,14 +26,15 @@ def main(argv):
     resetscrapers = False
     listscrapers = False
     storedata = False
+    charchosen = False
+    scrapechar = 'A';
 
     #Getting command line input
     try:
         (opts, args) = getopt.getopt(argv, 'hls:r:c:', ['list','storedata', 'select=','reset=','char='])
     except getopt.GetoptError:
-        print ('Usage:', projectname, '<start/pause/stop> [options]')
+        print ('Usage:', projectname, '[options]')
         print('\n(Use', projectname, '-h to view options)')
-
         sys.exit(2)
     for (opt, arg) in opts:
         if opt == '-h':
@@ -58,7 +59,9 @@ def main(argv):
             selectedscrapers = (arg.split(","))
             selectedscrapers = [int(i) for i in selectedscrapers]
         elif opt in ('-c', '--char'):
+            charchosen = True
             scrapechar = str(arg)
+            print(scrapechar)
         elif opt in ('--storedata'):
             storedata = True
 
@@ -99,12 +102,18 @@ def main(argv):
     #When you run --storedata
     if storedata == True:
         filesToStore = []
+        filesToMove = []
         #Collecting all files in the JSON folder
         for file in os.listdir(base_path / 'JSON'):
             if file.endswith(".json"):
                 filesToStore.append('JSON/'+ file)
+                filesToMove.append(file)
         #Calling script to import files into the database
-        SceyeDb.main(filesToStore)
+#        importdb = SceyeDb.main(filesToStore)
+        os.chdir(base_path / 'JSON')
+        for file in filesToMove:
+            cmd = 'mv ' + file + ' stored'
+            subprocess.call(cmd, shell=True)
 
 
     #The code when the program starts
@@ -113,7 +122,7 @@ def main(argv):
         print("---------------------")
         print("NHTCU project OSINT")
         print("Team 10")
-        print("Framework v1.1")
+        print("Framework v1.3")
         print("---------------------")
 
         #Printing list of chosen scrapers
@@ -125,20 +134,16 @@ def main(argv):
             except:
                 print('Could not choose scraper #',x,'because it doesn\'t exist. Please try again')
                 exit()
-        if scrapechar:
-            print('\nScraping will start from the following character: '+ scrapechar)
-            print('Make sure to clear cache before scraping a new charactar (-r or --reset)')
-        starting = input("\nPress Enter to start scraping (Stop with CTRL + C)")
+        print('\nScraping will start from the following character: '+ scrapechar)
+        print('Make sure to clear cache before scraping a new charactar (-r or --reset)')
+        starting = input("\nPress Enter to start scraping (Pause with CTRL + C)")
         if starting == "":
             print("Scraping...")
         #Random file name
         randomfile = "scrape" + str(random.randint(0,99999)) + ".json"
         jsonFolder = '../../JSON/'+randomfile
         #The command that is ran to start the scraper
-        if scrapechar:
-            cmd = 'scrapy crawl '+ spiders[selectedscrapers[0]] + ' -a ip='+ scrapechar + ' -o ' + jsonFolder + ' -s LOG_ENABLED=False -s JOBDIR=crawls/'+spiders[selectedscrapers[0]]+'-1'
-        else:
-            cmd = 'scrapy crawl '+ spiders[selectedscrapers[0]] + ' -o ' + jsonFolder + ' -s LOG_ENABLED=False -s JOBDIR=crawls/'+spiders[selectedscrapers[0]]+'-1'
+        cmd = 'scrapy crawl '+ spiders[selectedscrapers[0]] + ' -a ip='+ scrapechar + ' -o ' + jsonFolder + ' -s LOG_ENABLED=False -s JOBDIR=crawls/'+spiders[selectedscrapers[0]]+'-1'
         try:
             #Running the command in cmd inside the scraper folder
             os.chdir(base_path / 'Scraper' / scrapers[0])
