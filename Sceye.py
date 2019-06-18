@@ -109,7 +109,7 @@ def main(argv):
                 filesToStore.append('JSON/'+ file)
                 filesToMove.append(file)
         #Calling script to import files into the database
-#        importdb = SceyeDb.main(filesToStore)
+        importdb = SceyeDb.main(filesToStore)
         os.chdir(base_path / 'JSON')
         for file in filesToMove:
             cmd = 'mv ' + file + ' stored'
