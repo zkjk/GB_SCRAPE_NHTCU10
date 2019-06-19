@@ -2,18 +2,6 @@ import pymysql
 import os
 import json
 
-
-
-# do validation and checks before insert
-def validate_string(val):
-   if val != None:
-        if type(val) is int:
-            #for x in val:
-            #   print(x)
-            return str(val).encode('utf-8')
-        else:
-            return val
-
 def main(arg1):
     #Putting argument with all the json files into a variable
     json_files = []
