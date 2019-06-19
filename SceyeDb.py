@@ -28,8 +28,9 @@ def main(arg1):
             print("company_name:", item["company_name"])
             print("address:", item["address"])
             print("location:", item["location"])
+            print("url:", item["url"])
 
-            cursor.execute("INSERT INTO Company (UUIDCompany, Name, LandCode, ChamberOfCommerce, FoundedIn) VALUES (%s,%s,%s,%s,%s)", (item["uid"], item["company_name"], item["land_code"], item["company_registration_no"], "2019-02-02"))
+            cursor.execute("INSERT INTO Company (UUIDCompany, Name, LandCode, ChamberOfCommerce, ScrapeDate, Source) VALUES (%s,%s,%s,%s,%s)", (item["uid"], item["company_name"], item["land_code"], item["company_registration_no"], item["date_time"], item["url"]))
     con.commit()
     con.close()
 
