@@ -21,6 +21,7 @@ def main(arg1):
         # parse json data to SQL insert
         for i, item in enumerate(json_obj):
             cursor.execute("INSERT INTO Company (UUIDCompany, Name, LandCode, ChamberOfCommerce, ScrapeDate, Source) VALUES (%s,%s,%s,%s,%s,%s)", (item["uid"], item["company_name"], item["land_code"], item["company_registration_no"], item["date_time"], item["url"]))
+            cursor.execute("INSERT INTO Address (UUIDAddress, Country, Street, PostalCode, Currency, Company_UUIDCompany) VALUES (%s,%s,%s,%s,%s,%s)", (item["uid"], item["land_code"], item["address"], item["postal_code"], "£", item["uid"]))
             
     con.commit()
     con.close()
