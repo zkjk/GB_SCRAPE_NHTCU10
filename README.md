@@ -8,7 +8,7 @@ Console & Security
 - Export to JSON ✔
 - Connection to database with Python ✔
 - Use console to control ✔
-- Add security layer
+- Add security layer ✔
 
 ## Sceye.py
 
